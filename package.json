@@ -1,0 +1,23 @@
+{
+  "name": "luxeradio",
+  "version": "1.0.0",
+  "description": "Luxe Radio Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExceptedPrism3/LuxeRadio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ExceptedPrism3/LuxeRadio/issues"
+  },
+  "homepage": "https://github.com/ExceptedPrism3/LuxeRadio#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
