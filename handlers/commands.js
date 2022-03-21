@@ -1,18 +1,25 @@
-const { getFiles } = require("../util/functions")
-const fs = require("fs")
+const { getFiles } = require("../util/functions");
+const { readdirSync } = require("fs");
+const { Collection } = require("discord.js");
 
-module.exports = (bot, reload) => {
-    const {client} = bot
+module.exports = (client) => {
+  client.commands = new Collection();
+  const categories = readdirSync("commands");
 
-    fs.readdirSync("./commands/").forEach((category) => {
-        let commands = getFiles(`./commands/${category}`, ".js")
-
-        commands.forEach((f) => {
-            if (reload) delete require.cache[require.resolve(`../commands/${category}/${f}`)]
-            const command = require(`../commands/${category}/${f}`)
-            client.commands.set(command.name, command)
-        })
-    })
-
-    console.log(`Loaded ${client.commands.size} commands`)
-}
+  categories.forEach((category) => {
+    const commands = getFiles(`commands/${category}`, ".js");
+    commands.forEach((commandFile) => {
+      const command = require(`../commands/${category}/${commandFile}`);
+      if (command.name && typeof command.name === "string") {
+        client.commands.set(command.name, command);
+      } else {
+        throw new TypeError(
+          [
+            `The command: ${commandFile} failed to load`,
+            "because it doesn't have a name property`",
+          ].join(" ")
+        );
+      }
+    });
+  });
+};

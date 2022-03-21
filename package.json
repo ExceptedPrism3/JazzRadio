@@ -1,23 +1,24 @@
 {
-  "name": "luxeradio",
+  "name": "niconiconii",
   "version": "1.0.0",
-  "description": "Luxe Radio Discord Bot",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ExceptedPrism3/LuxeRadio.git"
+    "postinstall": "node .",
+    "start": "node ."
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ExceptedPrism3/LuxeRadio/issues"
-  },
-  "homepage": "https://github.com/ExceptedPrism3/LuxeRadio#readme",
   "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "@discordjs/voice": "^0.8.0",
+    "canvas": "^2.8.0",
+    "discord-api-types": "^0.27.2",
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "discord.js-commando": "github:discordjs/commando",
+    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.4.1",
+    "libsodium-wrappers": "^0.7.9"
   }
 }
