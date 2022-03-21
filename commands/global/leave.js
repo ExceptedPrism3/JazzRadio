@@ -18,7 +18,7 @@ module.exports = {
 
         connection.destroy()
 
-        message.reply('Disconnected from the voice channel!');
+        return message.reply('Disconnected from the voice channel!');
     },
   };
   

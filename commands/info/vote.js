@@ -2,6 +2,7 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js")
 
 module.exports = {
     name: "vote",
+    aliases: ['invite', 'inv'],
     description: "Vote for the bot.",
     category: "info",
     run: async ({ message }) => {

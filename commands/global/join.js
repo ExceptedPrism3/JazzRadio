@@ -18,13 +18,13 @@ module.exports = {
             adapterCreator: message.guild.voiceAdapterCreator
         })
 
-        message.reply(`I have joined ${message.member.voice.channel} channel.`)
-
         const player = createAudioPlayer();
         const resource = createAudioResource(process.env.STREAM);
 
         player.play(resource);
 		connection.subscribe(player);
+
+        return message.reply(`I have joined ${message.member.voice.channel} channel.`)
     },
   };
   
