@@ -1,16 +1,14 @@
-const { getVoiceConnection } = require('@discordjs/voice');
 module.exports = {
     name: "pause",
     description: "Pause the Radio.",
     category: "global",
-    run: async ({ message, client }) => {
+    run: async ({ message }) => {
 
-        const connection = getVoiceConnection(message.guild.id)
+        const serverQueue = message.guild.id
 
-        if (!connection) return message.channel.send("I'm not in a voice channel!")
-
-        connection.setSpeaking(false)
-
+            serverQueue.connection.dispatcher.pause()
+            message.reply("Done")
+        
     },
   };
   
