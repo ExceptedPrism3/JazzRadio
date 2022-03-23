@@ -1,6 +1,6 @@
 # LuxeRadio
 
-<img src="https://www.dropbox.com/s/4w09wtvot6mbnlo/JazzRadio-ReadMe.gif?dl=1">
+<img src="https://cdn.discordapp.com/attachments/927336267379798037/955982120675848202/JazzRadio-ReadMe.gif">
 
 <br>
 
@@ -17,5 +17,5 @@ You can find this bot <a href="https://top.gg/bot/955048681025978438"><b>here</b
 Execute the `hr!help` command to view all available commands!
 
 <p align="center">
-<img src="https://www.dropbox.com/s/2ymnq5glom1cltm/Screenshot%202022-03-23%20010334.png?dl=1"/>
+<img src="https://cdn.discordapp.com/attachments/927336267379798037/955982054405849138/Screenshot_2022-03-23_010334.png"/>
 </p>
