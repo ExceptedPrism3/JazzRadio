@@ -14,7 +14,7 @@ You can find this bot <a href="https://top.gg/bot/955048681025978438"><b>here</b
 
 <br>
 
-Execute the `hr!help` command to view all available commands!
+Execute the `jz!help` command to view all available commands!
 
 <p align="center">
 <img src="https://cdn.discordapp.com/attachments/927336267379798037/955982054405849138/Screenshot_2022-03-23_010334.png"/>
