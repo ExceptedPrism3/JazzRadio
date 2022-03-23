@@ -15,12 +15,11 @@ module.exports = {
 
         const row = new MessageActionRow().addComponents(
             new MessageButton()
-                .setCustomId("vote")
+                .setURL("https://top.gg/bot/955048681025978438/vote")
                 .setLabel("Vote")
-                .setURL("")
-                .setStyle("PRIMARY"),
+                .setStyle("LINK"),
             new MessageButton()
-                .setURL("https://discord.com/api/oauth2/authorize?client_id=955048681025978438&permissions=277028887616&scope=bot%20applications.commands")
+                .setURL("https://discord.com/api/oauth2/authorize?client_id=955048681025978438&permissions=277028879424&scope=bot%20applications.commands")
                 .setLabel("Invite")
                 .setStyle("LINK"),
         );

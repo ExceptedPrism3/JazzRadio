@@ -1,12 +1,13 @@
+const { joinVoiceChannel, createAudioResource, createAudioPlayer } = require('@discordjs/voice');
 module.exports = {
     name: "pause",
     description: "Pause the Radio.",
     category: "global",
     run: async ({ message }) => {
 
-        const serverQueue = message.guild.id
+        const player = createAudioPlayer();
 
-            serverQueue.connection.dispatcher.pause()
+        player.stop()
             message.reply("Done")
         
     },
