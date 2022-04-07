@@ -13,6 +13,7 @@ module.exports = {
         .addField('Ping', 'Display the Bot Latency.\n`jz!ping`', true)
         .addField('Leave', 'Leave your voice channel.\n`jz!leave`', true)
         .addField('Vote', 'Display the links of the bot.\n`jz!vote`', true)
+        .addField('uptime', 'Display the Bot Uptime.\n`jz!uptime`', true)
         return message.reply({embeds: [embed]})
 
     },

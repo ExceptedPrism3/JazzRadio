@@ -15,6 +15,7 @@ module.exports = {
         .addField('Ping', 'Display the Bot Latency.\n`/ping`', true)
         .addField('Leave', 'Leave your voice channel.\n`/leave`', true)
         .addField('Vote', 'Display the links of the bot.\n`/vote`', true)
+        .addField('uptime', 'Display the Bot Uptime.\n`/uptime`', true)
         return interaction.followUp({embeds: [embed]})
     },
 }
