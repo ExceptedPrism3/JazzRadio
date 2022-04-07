@@ -4,7 +4,7 @@ const fs = require("fs")
 module.exports = {
   name: "ready",
   run: async (client) => {
-    console.log(`Logged in as ${client.user.username}`)
+    console.log(`Logged in as ${client.user.tag}`)
     console.log('====================================')
 
     const activities_list = [
@@ -25,7 +25,7 @@ module.exports = {
 
     client.slashcommands = new Discord.Collection()
 
-    const slashFiles = fs.readdirSync("./slashcommands").filter(file => file.endsWith(".js"))
+    const slashFiles = fs.readdirSync("../slashcommands").filter(file => file.endsWith(".js"))
 
     for (const file of slashFiles) {
       const slashcmd = require(`../slashcommands/${file}`)
