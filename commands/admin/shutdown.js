@@ -1,4 +1,5 @@
-const { owners } = require("../../config.json");
+const { owners } = require("../../config.json")
+
 module.exports = {
     name: "shutdown",
     description: "Shutdown the bot completly.",
@@ -9,10 +10,10 @@ module.exports = {
 
         try{
             await message.reply("Bot is shutting down...")
-            process.exit()
+            process.exit(0)
         } catch(e) {
             message.reply(`ERROR: ${e.message}`)
         }
     },
-  };
+};
   

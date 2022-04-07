@@ -1,11 +1,12 @@
+const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js")
 
 module.exports = {
-    name: "vote",
-    aliases: ['invite', 'inv'],
-    description: "Vote for the bot.",
-    category: "info",
-    run: async ({ message }) => {
+
+    data: new SlashCommandBuilder()
+        .setName("vote")
+        .setDescription("Vote for the bot."),
+    run: async ({ interaction }) => {
 
         let embed = new MessageEmbed()
 
@@ -24,7 +25,6 @@ module.exports = {
                 .setStyle("LINK"),
         );
 
-        return message.reply({ embeds: [embed], components: [row] })
-
+        return interaction.followUp({ embeds: [embed], components: [row] })
     },
-};
+}

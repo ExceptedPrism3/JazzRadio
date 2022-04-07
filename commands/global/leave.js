@@ -1,7 +1,8 @@
-const { getVoiceConnection } = require('@discordjs/voice');
+const { getVoiceConnection } = require('@discordjs/voice')
+
 module.exports = {
     name: "leave",
-    aliases: ['stop', '9wd'],
+    aliases: ['stop', '9wd', 'quit'],
     description: "Leave your voice channel.",
     category: "global",
     run: async ({ message }) => {
@@ -14,11 +15,11 @@ module.exports = {
 
         const connection = getVoiceConnection(message.guild.id)
 
-        if (!connection) return message.channel.send("I'm not in a voice channel!")
+        if (!connection) return message.reply("I'm not in a voice channel!")
 
         connection.destroy()
 
-        return message.reply('Disconnected from the voice channel!');
+        return message.reply('Disconnected from the voice channel!')
     },
-  };
+};
   

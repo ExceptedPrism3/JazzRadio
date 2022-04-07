@@ -1,4 +1,5 @@
-const { owners } = require("../../config.json");
+const { owners } = require("../../config.json")
+
 module.exports = {
     name: "servers",
     description: "List all servers that contains the bot.",
@@ -6,17 +7,15 @@ module.exports = {
     run: async ({ message, client }) => {
 
         if (message.author.id != owners) return
+
+        let i = 0;
         
-        let i = 0
-
-        for (i = 0; i < client.guilds.cache.size; i++){
-
-            message.channel.send(`${message.guild.name}`)
-
-        }
+        client.guilds.cache.forEach(guild => {
+            message.channel.send(`${guild.name}`)
+            i++
+        })
 
         return message.channel.send(`Total Servers: **${i}**`)
-        
     },
-  };
+};
   

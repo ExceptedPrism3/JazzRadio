@@ -1,4 +1,3 @@
-const Distube = require("distube").default;
 module.exports = {
   name: "ping",
   description: "Display the ping of the Bot.",

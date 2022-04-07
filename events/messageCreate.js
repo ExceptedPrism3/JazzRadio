@@ -1,4 +1,4 @@
-const { prefix, owners } = require("../config.json");
+const { prefix, owners } = require("../config.json")
 
 module.exports = {
   name: "messageCreate",
@@ -11,26 +11,26 @@ module.exports = {
       );
     };
 
-    const { member, client } = message;
+    const { member, client } = message
 
     if (isInvalidUser()) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const commandPrompt = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).trim().split(/ +/g)
+    const commandPrompt = args.shift().toLowerCase()
 
-    let command = client.commands.get(commandPrompt) || client.commands.find(a => a.aliases && a.aliases.includes(commandPrompt));
+    let command = client.commands.get(commandPrompt) || client.commands.find(a => a.aliases && a.aliases.includes(commandPrompt))
 
     if (!command) return;
 
     if (command.devOnly && !owners.includes(member.id)) {
-      return message.reply("This command is only available to the bot owners.");
+      return message.reply("This command is only available to the bot owners.")
     }
 
     if (
       command.permissions &&
       member.permissions.missing(command.permissions).length !== 0
     ) {
-      return message.reply("You do not have permission to use this command.");
+      return message.reply("You do not have permission to use this command.")
     }
 
     await command.run({

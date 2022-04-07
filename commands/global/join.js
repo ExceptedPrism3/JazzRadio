@@ -1,4 +1,5 @@
-const { joinVoiceChannel, createAudioResource, createAudioPlayer } = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioResource, createAudioPlayer } = require('@discordjs/voice')
+
 module.exports = {
     name: "join",
     aliases: ['play', 'p'],
@@ -18,13 +19,13 @@ module.exports = {
             adapterCreator: message.guild.voiceAdapterCreator
         })
 
-        const player = createAudioPlayer();
-        const resource = createAudioResource(process.env.STREAM);
+        const player = createAudioPlayer()
+        const resource = createAudioResource(process.env.STREAM)
 
         player.play(resource);
-		connection.subscribe(player);
+		connection.subscribe(player)
 
         return message.reply(`I have joined ${message.member.voice.channel} channel.`)
     },
-  };
+};
   
