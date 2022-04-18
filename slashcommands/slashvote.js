@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js")
+const { Bot_Invite} = require("../config.json")
 
 module.exports = {
 
@@ -20,11 +21,11 @@ module.exports = {
                 .setLabel("Vote")
                 .setStyle("LINK"),
             new MessageButton()
-                .setURL("https://discord.com/api/oauth2/authorize?client_id=955048681025978438&permissions=277028879424&scope=bot%20applications.commands")
+                .setURL(Bot_Invite)
                 .setLabel("Invite")
                 .setStyle("LINK"),
         );
 
-        return interaction.followUp({ embeds: [embed], components: [row] })
+        return await interaction.followUp({ embeds: [embed], components: [row] })
     },
 }

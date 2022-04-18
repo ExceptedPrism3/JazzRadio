@@ -18,7 +18,6 @@ module.exports = (client) => {
     } else {
 
       throw new TypeError(
-
         `The event: ${eventFile} failed to load because it doesn't have a name property.`
       );
     }

@@ -11,3 +11,16 @@ Additions
 
 Fixes
     [*] Minor Fixes
+
+<-!------------------------------ 2.1 ------------------------------!->
+
+Additions
+    [+] New status Messages
+    [+] On Ping Event which replies to whom pinged the bot
+    [+] /info command which dispay some information about the bot
+
+Changes
+    [*] Code Improvements
+
+Removes
+    [-] Removed all prefix commands

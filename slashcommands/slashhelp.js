@@ -16,6 +16,7 @@ module.exports = {
         .addField('Leave', 'Leave your voice channel.\n`/leave`', true)
         .addField('Vote', 'Display the links of the bot.\n`/vote`', true)
         .addField('uptime', 'Display the Bot Uptime.\n`/uptime`', true)
-        return interaction.followUp({embeds: [embed]})
+        .addField('info', 'Display some information about the Bot.\n`/info`', true)
+        return await interaction.followUp({embeds: [embed]})
     },
 }

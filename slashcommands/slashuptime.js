@@ -11,8 +11,7 @@ module.exports = {
       
         let embed = new MessageEmbed()
         .setColor('ORANGE')
-        .setTitle('')
         .setDescription(`⏰ Uptime: **${prettyMilliseconds(interaction.client.uptime)}**`)
-        return interaction.followUp({embeds: [embed]})
+        return await interaction.followUp({embeds: [embed]})
     },
 }

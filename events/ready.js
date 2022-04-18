@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v10")
 const fs = require("fs")
-const { clientId } = require("../config.json")
+const { Client_ID, Owners } = require("../config.json")
 const LOAD_SLASH = process.argv[2] == "load"
 
 module.exports = {
@@ -17,6 +17,8 @@ module.exports = {
       { type: "WATCHING", message: "a Jazz Concert" },
       { type: "LISTENING", message: "Contemporary Jazz" },
       { type: "LISTENING", message: "DJ Hmida" },
+      { type: "PLAYING", message: "Piano" },
+      { type: "WATCHING", message: "Paris Tower" },
     ];
 
     setInterval(() => {
@@ -33,9 +35,19 @@ module.exports = {
 
     let commands = []
 
+    const adminslashFiles = fs
+      .readdirSync("./slashcommands/admin")
+      .filter((file) => file.endsWith(".js"))
+
     const slashFiles = fs
       .readdirSync("./slashcommands")
       .filter((file) => file.endsWith(".js"))
+
+    for (const file of adminslashFiles) {
+      const slashcmd = require(`../slashcommands/admin/${file}`)
+      client.slashcommands.set(slashcmd.data.name, slashcmd)
+      if (LOAD_SLASH) commands.push(slashcmd.data.toJSON())
+    }
 
     for (const file of slashFiles) {
       const slashcmd = require(`../slashcommands/${file}`)
@@ -46,9 +58,8 @@ module.exports = {
 
     if (LOAD_SLASH) {
       const rest = new REST({ version: "10" }).setToken(process.env.TOKEN)
-      console.log("Slash Commands Deployed")
       rest
-        .put(Routes.applicationCommands(clientId), { body: commands })
+        .put(Routes.applicationCommands(Client_ID), { body: commands })
         .then(() => {
           console.log("SlashCommands have been loaded successfully!")
           process.exit(0)
@@ -69,6 +80,10 @@ module.exports = {
           const slashcmd = client.slashcommands.get(interaction.commandName)
 
           if (!slashcmd) interaction.reply("Not a valid slash command")
+
+          if (slashcmd.devOnly && !Owners.includes(interaction.user.id)) {
+            return interaction.reply("This command is only available to the bot owners")
+          }
 
           await interaction.deferReply()
           await slashcmd.run({ client, interaction })
