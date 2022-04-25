@@ -30,13 +30,13 @@ Execute the `jz!help` command or `/help` of the bot to view all available comman
     "Prefix": "<BOT-PREFIX>",
     "Owners": "<@<USER-ID>>",
     "Client_ID": "<BOT-ID>",
-    "Bot_Invite": "https://discord.com/api/oauth2/authorize?client_id=<BOT-ID>&permissions=277062450240&    scope=bot%20applications.commands",
+    "Bot_Invite": "https://discord.com/api/oauth2/authorize?client_id=<BOT-ID>&permissions=277062450240 scope=bot%20applications.commands",
     "Emoji": "<EMOJI-ID>",
     "Support_Link": "https://discord.com/invite/MfR5mcpVfX"
     }
-    4- Save it, and perfrom the command npm i
-    5- Afterwards, perfrom the second command node index.js load
-    6- Lastly, perform the command node index.js
+    4- Save it, and perfrom the command 'npm i'
+    5- Afterwards, perfrom the second command 'node index.js loa'
+    6- Lastly, perform the command 'node index.js'
 
 
 # Contributing
