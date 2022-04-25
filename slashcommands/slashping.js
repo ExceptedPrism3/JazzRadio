@@ -21,16 +21,8 @@ module.exports = {
             .setColor('ORANGE')
             .setTitle('🏓 Pong')
             .setDescription(`Bot Latency: **${ping}**\n\nAPI Latency: **${interaction.client.ws.ping}**`)
-      
-            let embed2 = new MessageEmbed()
-            .setColor('ORANGE')
-            .setTitle('WARNING')
-            .setDescription(`Due to some complications with Discord, a new bot has come in place to replace the current one.
-            This bot will be offline by the end of this month! Please make sure to invite the new bot before the deadline!\n\n\nNew Bot: <@968211299043536976>
-            \n\nBot Invite Link: https://discord.com/api/oauth2/authorize?client_id=968211299043536976&permissions=277062450240&scope=bot%20applications.commands`)
 
-            resultMsg.edit({embeds: [pingEmbed]})
-            return interaction.followUp({embeds: [embed2]})
+            return resultMsg.edit({embeds: [pingEmbed]})
         })
     },
 }
