@@ -35,7 +35,7 @@ Execute the `jz!help` command or `/help` of the bot to view all available comman
     "Support_Link": "https://discord.com/invite/MfR5mcpVfX"
     }
     4- Save it, and perfrom the command 'npm i'
-    5- Afterwards, perfrom the second command 'node index.js loa'
+    5- Afterwards, perfrom the second command 'node index.js load'
     6- Lastly, perform the command 'node index.js'
 
 
