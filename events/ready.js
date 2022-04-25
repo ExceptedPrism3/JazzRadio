@@ -35,19 +35,9 @@ module.exports = {
 
     let commands = []
 
-    const adminslashFiles = fs
-      .readdirSync("./slashcommands/admin")
-      .filter((file) => file.endsWith(".js"))
-
     const slashFiles = fs
       .readdirSync("./slashcommands")
       .filter((file) => file.endsWith(".js"))
-
-    for (const file of adminslashFiles) {
-      const slashcmd = require(`../slashcommands/admin/${file}`)
-      client.slashcommands.set(slashcmd.data.name, slashcmd)
-      if (LOAD_SLASH) commands.push(slashcmd.data.toJSON())
-    }
 
     for (const file of slashFiles) {
       const slashcmd = require(`../slashcommands/${file}`)
@@ -80,10 +70,6 @@ module.exports = {
           const slashcmd = client.slashcommands.get(interaction.commandName)
 
           if (!slashcmd) interaction.reply("Not a valid slash command")
-
-          if (slashcmd.devOnly && !Owners.includes(interaction.user.id)) {
-            return interaction.reply("This command is only available to the bot owners")
-          }
 
           await interaction.deferReply()
           await slashcmd.run({ client, interaction })

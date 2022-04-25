@@ -24,3 +24,12 @@ Changes
 
 Removes
     [-] Removed all prefix commands
+
+
+<-!------------------------------ 2.2 ------------------------------!->
+
+Additions
+    [+] Embed messages on every command to inform the users to migrate to another bot
+
+Removes
+    [-] Removed all admin commands
