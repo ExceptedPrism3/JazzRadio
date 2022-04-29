@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js")
-const { Owners, Emoji, Bot_Invite, Support_Link } = require("../config.json")
+const { Owners, Bot_Invite, Support_Link } = require("../config.json")
 
 module.exports = {
     
@@ -8,8 +8,6 @@ module.exports = {
         .setName("info")
         .setDescription("Display some information about the Bot."),
     run: async ({ client, interaction }) => {
-
-        const jazzRadioEmoji = client.emojis.cache.get(Emoji);
       
         let embed = new MessageEmbed()
         .setColor('ORANGE')
@@ -31,7 +29,6 @@ module.exports = {
                 .setStyle("LINK"),
         );
         
-        let embeds = await interaction.followUp({embeds: [embed], components: [row]})
-        return await embeds.react(jazzRadioEmoji)
+        return await interaction.followUp({embeds: [embed], components: [row]})
     },
 }

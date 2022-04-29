@@ -33,3 +33,9 @@ Additions
 
 Removes
     [-] Removed all admin commands
+
+
+<-!------------------------------ 2.2.1 ------------------------------!->
+
+Removes
+    [-] Emoji Reaction on /info command which caused the bot to crash
