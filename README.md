@@ -1,36 +1,23 @@
-# JazzRadio
+# HitRadio
 
 <img src="https://cdn.discordapp.com/attachments/927336267379798037/955982120675848202/JazzRadio-ReadMe.gif">
 
 <br>
 
-<<<<<<< HEAD
 24/7 French Discord Bot named JazzRadio named after the **Contemporary Jazz** Radio Station, you are able to listen to it in real-time your voice channel with your friends.
 
 Join in, and bring the bot with you and relax while listening to the pure Jazz | Classic Music.
-=======
-24/7 Moroccan Discord Bot named HitRadio which is named after the **HitRadio** Radio Station, you are able to listen to it in real-time on your voice channel with your homies.
-
-Join in, bring the bot with you and relax while listening to your favorite Radio Station while doing your homework or maybe coding.
->>>>>>> 48f4f431b2c0339f102197f12d51b2380cc5e9db
 
 <br>
 
-You can find this bot <a href="https://top.gg/bot/955048681025978438"><b>here</b></a>, or you can invite it from <a href="https://discord.com/api/oauth2/authorize?client_id=955048681025978438&permissions=277028895808&scope=bot%20applications.commands"><b>here</b></a>.
+You can find this bot <a href="https://top.gg/bot/955048681025978438"><b>here</b></a>, or you can invite it from <a href="https://discord.com/api/oauth2/authorize?client_id=968211299043536976&permissions=277028895808&scope=bot%20applications.commands"><b>here</b></a>.
 
-<<<<<<< HEAD
+<br>
+
 Execute `/help` of the bot to view all available commands!
 
 <p align="center">
 <img src="https://cdn.discordapp.com/attachments/927336267379798037/978646692977074216/unknown.png"/>
-=======
-<br>
-
-Execute `/help` of the bot to view all available commands!
-
-<p align="center">
-<img src="https://cdn.discordapp.com/attachments/927336267379798037/977267168850870352/unknown.png"/>
->>>>>>> 48f4f431b2c0339f102197f12d51b2380cc5e9db
 </p>
 
 <br>
@@ -98,11 +85,7 @@ python3 -m pip install git+https://github.com/Pycord-Development/pycord
 python3 main.py
 ```
 
-<<<<<<< HEAD
-**Have fun with 24/7 Pure Jazz!**
-=======
 **Have fun with 24/7 Hits!**
->>>>>>> 48f4f431b2c0339f102197f12d51b2380cc5e9db
 
 <br>
 
