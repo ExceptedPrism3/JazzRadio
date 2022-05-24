@@ -1,4 +1,9 @@
-.env
+.gitignore
+essentials.py
+cogs/admin/servers.py
+/essentials
+__pycache__
+node_modules
+private
 package-lock.json
-node_modules/
-config.json
+package.json
