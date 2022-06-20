@@ -85,7 +85,7 @@ python3 -m pip install git+https://github.com/Pycord-Development/pycord
 python3 main.py
 ```
 
-**Have fun with 24/7 Hits!**
+**Have fun with 24/7 Pure Jazz!**
 
 <br>
 
