@@ -1,4 +1,4 @@
-# HitRadio
+# JazzRadio
 
 <img src="https://cdn.discordapp.com/attachments/927336267379798037/955982120675848202/JazzRadio-ReadMe.gif">
 
