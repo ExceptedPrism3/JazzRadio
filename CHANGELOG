@@ -44,18 +44,7 @@ Additions
 Changes
     [*] Switched to Python Programing Language
 
-<<<<<<< HEAD
-Fixes
-    [*] Bot Crashing
-=======
-
-<-!------------------------------ 2.0 ------------------------------!->
-
-Additions
-    [+] Added /volume command
-    [+] Bot will stay online for 24/7
+<-!------------------------------ 3.1 ------------------------------!->
 
 Fixes
-    [*] Bot Crashing
-
->>>>>>> 48f4f431b2c0339f102197f12d51b2380cc5e9db
+    [*] Minor Fixes

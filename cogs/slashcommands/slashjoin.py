@@ -33,11 +33,7 @@ class Music(discord.ext.commands.Cog):
             player.store('channel', ctx.channel.id)
             await ctx.author.voice.channel.connect(cls=LavalinkVoiceClient)
 
-<<<<<<< HEAD
-    @slash_command(description = "Joins your voice channel.")
-=======
-    @slash_command(description = "Joins your voice channel and play the hits.")
->>>>>>> 48f4f431b2c0339f102197f12d51b2380cc5e9db
+    @slash_command(description = "Joins your voice channel and plays Jazz.")
     async def play(self, ctx):
 
         await self.ensure_voice(ctx)
