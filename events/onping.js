@@ -1,12 +1,13 @@
-const { Client_ID } = require("../config.json")
-
 module.exports = {
-	name: "messageCreate",
-	once: false,
-    run: async (message) => {
-        if (message.mentions.users.has(Client_ID) && !message.author.bot) {
-            
-            return await message.reply('Hi, to view my available commands, execute `/help` of the bot.')
-        }
+  name: 'messageCreate',
+  execute: async (message) => {
+    console.log("1")
+    if (message.mentions.has(message.client.user)) {
+      const reply = "Hi, to view my available commands, execute `/help`.";
+      await message.reply({
+        content: reply,
+        ephemeral: true,
+      });
     }
-}
+  },
+};
