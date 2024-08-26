@@ -1,6 +1,35 @@
 {
+  "name": "jazzradio",
+  "version": "4.0",
+  "description": "Pure Jazz Music to your ears.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord-bot",
+    "music-bot",
+    "jazz",
+    "radio",
+    "jazzradio",
+    "jazz-radio",
+    "radio-bot",
+    "radio-music",
+    "radio-music-bot"
+  ],
+  "author": "Prism3",
+  "license": "MIT",
   "dependencies": {
-    "discord": "^0.8.2",
-    "discord.py": "^1.0.0"
+    "@discordjs/voice": "^0.17.0",
+    "discord.js": "^14.15.3",
+    "libsodium-wrappers": "^0.7.15",
+    "opusscript": "^0.0.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ExceptedPrism3/JazzRadio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ExceptedPrism3/JazzRadio/issues"
   }
 }

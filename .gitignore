@@ -1,9 +1,4 @@
 .gitignore
-essentials.py
-cogs/admin/servers.py
-/essentials
-__pycache__
-node_modules
-private
-package-lock.json
-package.json
+/node_modules/
+/config.json
+/logs/

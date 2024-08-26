@@ -1,104 +1,148 @@
 # JazzRadio
 
-<img src="https://cdn.discordapp.com/attachments/927336267379798037/955982120675848202/JazzRadio-ReadMe.gif">
+![NodeJS](https://img.shields.io/badge/NodeJS-18-green.svg)
+![Discord.js](https://img.shields.io/badge/Discord.js-v14-blue.svg)
 
-<br>
+## Overview
 
-24/7 French Discord Bot named JazzRadio named after the **Contemporary Jazz** Radio Station, you are able to listen to it in real-time your voice channel with your friends.
+JazzRadio Bot is a Discord bot that streams smooth jazz music in voice channels.
+It supports various commands such as `/play`, `/stop`, `/leave`, `/info`, `/vote`, and `/help`.
+The bot also features a rotating activity status to keep things lively.
 
-Join in, and bring the bot with you and relax while listening to the pure Jazz | Classic Music.
-
-<br>
-
-You can find this bot <a href="https://top.gg/bot/955048681025978438"><b>here</b></a>, or you can invite it from <a href="https://discord.com/api/oauth2/authorize?client_id=968211299043536976&permissions=277028895808&scope=bot%20applications.commands"><b>here</b></a>.
-
-<br>
+You can find this bot **[here](https://top.gg/bot/955048681025978438)**, or you can invite it from **[here](https://discord.com/api/oauth2/authorize?client_id=968211299043536976&permissions=277028895808&scope=bot%20applications.commands)**.
 
 Execute `/help` of the bot to view all available commands!
 
-<p align="center">
-<img src="https://cdn.discordapp.com/attachments/927336267379798037/978646692977074216/unknown.png"/>
-</p>
 
-<br>
 
-# Installation
+## 🌟 Features
 
-1- Clone this repository.
+- **Play Music**: Stream smooth jazz in voice channels.
+- **Status Rotation**: Rotates activity status messages.
+- **Command Handling**: Includes commands for playing, stopping, leaving, and more.
+- **24/7**: Bot keeps playing the Jazz all day / night long.
+- **Error Logging**: All errors are kept in an error.log file for you to inspect.
 
-<br>
+## 🚀 Requirements
 
-2- Download & Install these packages:
+- **Node.js**: Version 18.x or later.
+- **Discord.js**: Version 14.x or later.
+- **@discordjs/voice**: For voice-related features.
 
-- **LavaLink**
+## ⚙️ Installation
+
+1. **Clone the Repository**
+
 ```bash
-pip install lavalink
+  git clone https://github.com/ExceptedPrism3/JazzRadio.git
+  cd JazzRadio
 ```
 
-- **PyCord**
-```python
-python3 -m pip install git+https://github.com/Pycord-Development/pycord
+2. **Install Dependencies**
+
+⚠️ **Ensure you have Node.js installed.** Then run:
+
+```bash
+  npm install
 ```
 
-- **Java 13 or Higher**
+3. **Configuration**
 
-<br>
+Create a **config.json** file in the **root** directory with the following structure:
 
- 3- Create a folder named `private` and change the directory to it and do the following:
- - Upload the **[Lavalink.jar](https://github.com/freyacodes/Lavalink/releases)**.
- - Create a file named `application.yml` and fill it with this **[example](https://github.com/freyacodes/Lavalink/blob/master/LavalinkServer/application.yml.example)**.
- Since this bot streams from a link it only needs `http` enabled in the sources.
- - Create a file named `essentials.py` and fill it with the following structure:
+```json
+{
+  "token": "YOUR_DISCORD_BOT_TOKEN",
+  "clientId": "YOUR_CLIENT_ID",
+  "voteLink": "YOUR_BOT_VOTE_LINK",
+  "inviteLink": "YOUR_BOT_INVITE_LINK",
+  "statusMessages": [
+    "Playing smooth jazz",
+    "Streaming 24/7",
+    "Chill vibes only",
+    "Tune in to relax",
+    "Contemporary Jazz",
+    "DJ Hmida",
+    "Pure Jazz",
+    "Saxophone Instrument"
+  ],
+  "statusInterval": 60000 // Interval in milliseconds
+}
+```
 
- <br>
+Replace the placeholders with the appropriate information.
 
-    BOT_OWNER_ID = Owner_of_the_Bot_ID
-    BOT_TOKEN = 'Bot_Token'
+4. **Register Commands**
 
-    BOT_STATUS = ['Your_status', 'example']
+Run the following command to register your bot's commands while being the project root:
 
-    STREAM_LINK = 'Stream_Link'
+```bash
+  node utils/deploy-commands.js
+```
 
-    BOT_PREFIX = 'Bot_Prefix'
+## 🕹️ Usage 
 
-    BOT_INVITE = 'Bot_Invite_Link'
+1. **Start the Bot**
 
-    VOTE = 'Top_GG_vote_link_or_any_other_vote_site'
+```bash
+  node index.js
+```
 
-    INVITE_LINK = 'discord_support_invite_link'
+2. **Commands**
 
-    LAVA_HOST = 'host'
+    Use the commands from the `/help` command
 
-    LAVA_PORT = 'port'
 
-    LAVA_PASSWORD = 'passWorD'
+## 🤝 Contributing
 
-    LAVA_REGION = 'out_of_space'
+1. **Fork the Repository**
 
-    LAVA_NAME = 'any_name_is_good'
+    Create a fork of this repository to make changes.
 
-<br>
+
+2. **Clone your Work**
+
+```bash
+  git clone https://github.com/ExceptedPrism3/JazzrRdio.git
+  cd JazzRadio
+```
+
+3. **Create a Branch**
+
+```bash
+  git checkout -b your-feature-branch
+```
+
+4. **Make Changes**
     
-4- Go back to the root of the project and execute the following command:
+    Implement your feature or fix.
 
-```python
-python3 main.py
+
+5. **Commit Changes**
+
+```bash
+  git add .
+  git commit -m "Add your commit message here"
 ```
 
-**Have fun with 24/7 Pure Jazz!**
+6. **Push the Changes**
+
+```bash
+  git push origin your-feature-branch
+```
+
+7. **Create a Pull Request**
+
+   Submit a pull request with your changes.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the **[LICENSE](LICENSE)** file for details.
+
+## ✉️ Contact
+
+For any questions or feedback, please reach out over the **[Discord Support Server](https://discord.com/invite/MfR5mcpVfX)** or open an **[Issue](https://github.com/ExceptedPrism3/JazzRadio/issues)** on GitHub.
 
 <br>
 
-# Support
-
-If any Support is needed feel free to join my **[Discord Support Server](https://discord.com/invite/MfR5mcpVfX)** and ask there!
-
-<br>
-
-# Contributing
-Pull requests are welcome. For major changes, open an issue or a ticket first to discuss what you would like to change.
-
-<br>
-
-# Special Thanks
-A special thanks to a **[Friend](https://github.com/redmoogle)** who stood with me and helped me along the way!
+🎉 **Enjoy using JazzRadio Bot and happy coding!**
