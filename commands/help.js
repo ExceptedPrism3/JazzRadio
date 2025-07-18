@@ -1,9 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('help')
-        .setDescription('Displays all available commands.'),
+    data: new SlashCommandBuilder().setName('help').setDescription('Displays all available commands.'),
     async execute(interaction) {
         const helpEmbed = new EmbedBuilder()
             .setColor('Orange')
@@ -15,7 +13,7 @@ module.exports = {
                 { name: '🏓 **/ping**', value: 'Display bot latency' },
                 { name: '⏲️ **/uptime**', value: 'Display bot uptime' },
                 { name: '📊 **/vote**', value: 'Get a link to vote for the bot' },
-                { name: 'ℹ️ **/info**', value: 'Display information about the bot' }
+                { name: 'ℹ️ **/info**', value: 'Display information about the bot' },
             )
             .setFooter({ text: 'Use /command for more details on each command.' });
 

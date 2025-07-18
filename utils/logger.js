@@ -1,24 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 
-// Define the directory and file path
 const logDirectory = path.join(__dirname, '../logs');
-const logFilePath = path.join(logDirectory, 'error.log');
-
-// Ensure the logs directory exists, if not, create it
 if (!fs.existsSync(logDirectory)) {
-    fs.mkdirSync(logDirectory, { recursive: true });
+    fs.mkdirSync(logDirectory);
 }
 
-// Function to log messages to the log file
-function logToFile(message) {
-    const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] ${message}\n`;
-    fs.appendFileSync(logFilePath, logMessage);
-}
+const errorLogStream = fs.createWriteStream(path.join(logDirectory, 'error.log'), { flags: 'a' });
 
 module.exports = {
-    info: (message) => logToFile(`[INFO] ${message}`),
-    error: (message) => logToFile(`[ERROR] ${message}`),
-    warn: (message) => logToFile(`[WARN] ${message}`),
+    info: (message) => {
+        console.log(`[INFO] ${message}`);
+    },
+    warn: (message) => {
+        console.warn(`[WARN] ${message}`);
+    },
+    error: (message, error) => {
+        const errorMessage = `[ERROR] ${message}\n${error ? error.stack : ''}\n`;
+        console.error(errorMessage);
+        errorLogStream.write(errorMessage);
+    }
 };

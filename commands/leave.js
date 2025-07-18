@@ -1,14 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { getVoiceConnection } = require('@discordjs/voice');
+const { getPlayer, stopPlayer } = require('../utils/player');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('leave')
-        .setDescription('Stops the bot and leaves the voice channel'),
+    data: new SlashCommandBuilder().setName('leave').setDescription('Stops the bot and leaves the voice channel'),
     async execute(interaction) {
-        const connection = getVoiceConnection(interaction.guild.id);
+        const player = getPlayer(interaction.guild.id);
 
-        if (!connection) {
+        if (!player) {
             const noConnectionEmbed = new EmbedBuilder()
                 .setColor('#FF0000')
                 .setTitle('🚫 Error')
@@ -16,7 +14,6 @@ module.exports = {
             return interaction.reply({ embeds: [noConnectionEmbed], ephemeral: true });
         }
 
-        const botChannelId = connection.joinConfig.channelId;
         const userChannelId = interaction.member.voice.channelId;
 
         if (!userChannelId) {
@@ -27,7 +24,7 @@ module.exports = {
             return interaction.reply({ embeds: [noChannelEmbed], ephemeral: true });
         }
 
-        if (botChannelId !== userChannelId) {
+        if (player.connection.joinConfig.channelId !== userChannelId) {
             const notInSameVCEmbed = new EmbedBuilder()
                 .setColor('#FF0000')
                 .setTitle('🚫 Error')
@@ -35,7 +32,7 @@ module.exports = {
             return interaction.reply({ embeds: [notInSameVCEmbed], ephemeral: true });
         }
 
-        connection.destroy();
+        stopPlayer(interaction.guild.id);
         const successEmbed = new EmbedBuilder()
             .setColor('#00FF00')
             .setTitle('✅ Success')

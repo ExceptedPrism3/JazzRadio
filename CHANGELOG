@@ -1,7 +1,7 @@
 <-!------------------------------ 1.0 ------------------------------!->
 
 Fixes
-    [*] Minor Fixes
+    [!] Minor Fixes
 
 <-!------------------------------ 2.0 ------------------------------!->
 
@@ -10,7 +10,7 @@ Additions
     [+] UpTime Command
 
 Fixes
-    [*] Minor Fixes
+    [!] Minor Fixes
 
 <-!------------------------------ 2.1 ------------------------------!->
 
@@ -47,9 +47,26 @@ Changes
 <-!------------------------------ 3.1 ------------------------------!->
 
 Fixes
-    [*] Minor Fixes
+    [!] Minor Fixes
 
 <-!------------------------------ 4.0 ------------------------------!->
 
 Changes
     [*] Recoded into JS
+
+<-!------------------------------ 4.1 ------------------------------!->
+
+Additions
+    [+] Added ESLint and Prettier for code quality and consistency.
+    [+] Implemented a database system using better-sqlite3 to remember active channels.
+    [+] The bot will now automatically rejoin its last active channel on startup.
+    [+] Added a `data` directory for database storage.
+
+Changes
+    [*] Updated all outdated npm dependencies to their latest versions.
+    [*] Refactored configuration from `config.json` to a more secure `.env` file.
+    [*] Centralized all audio player logic into a new `utils/player.js` module for better maintainability.
+    [*] Improved the logger to only write error stacks to a log file.
+
+Fixes
+    [!] Cleaned up console logs for a quieter startup process.

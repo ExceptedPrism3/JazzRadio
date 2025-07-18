@@ -1,11 +1,11 @@
 const { ActivityType } = require('discord.js');
-const { statusMessages, statusInterval } = require('../config.json');
 
 function rotateStatus(client) {
+    const statusMessages = process.env.STATUS_MESSAGES.split(',');
+    const statusInterval = process.env.STATUS_INTERVAL;
     let currentIndex = 0;
 
     setInterval(() => {
-
         const status = statusMessages[currentIndex];
 
         try {

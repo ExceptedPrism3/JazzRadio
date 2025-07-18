@@ -1,10 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { voteLink, inviteLink } = require('../config.json');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('vote')
-        .setDescription('Provides a link to vote for the bot.'),
+    data: new SlashCommandBuilder().setName('vote').setDescription('Provides a link to vote for the bot.'),
     async execute(interaction) {
         const embed = new EmbedBuilder()
             .setColor('Orange')
@@ -17,15 +14,15 @@ module.exports = {
                 new ButtonBuilder()
                     .setLabel('Vote')
                     .setStyle(ButtonStyle.Link)
-                    .setURL(voteLink)
-                    .setEmoji('💖')
-            ).addComponents(
+                    .setURL(process.env.VOTE_LINK)
+                    .setEmoji('💖'),
+            )
+            .addComponents(
                 new ButtonBuilder()
                     .setLabel('Invite')
                     .setStyle(ButtonStyle.Link)
-                    .setURL(inviteLink)
-                    .setEmoji('➕')
-
+                    .setURL(process.env.INVITE_LINK)
+                    .setEmoji('➕'),
             );
 
         await interaction.reply({ embeds: [embed], components: [row], ephemeral: true });

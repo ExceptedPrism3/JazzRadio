@@ -13,8 +13,6 @@ You can find this bot **[here](https://top.gg/bot/955048681025978438)**, or you 
 
 Execute `/help` of the bot to view all available commands!
 
-
-
 ## 🌟 Features
 
 - **Play Music**: Stream smooth jazz in voice channels.
@@ -22,6 +20,7 @@ Execute `/help` of the bot to view all available commands!
 - **Command Handling**: Includes commands for playing, stopping, leaving, and more.
 - **24/7**: Bot keeps playing the Jazz all day / night long.
 - **Error Logging**: All errors are kept in an error.log file for you to inspect.
+- Auto-Rejoin: Automatically rejoins the voice channel when restarting or crashing.
 
 ## 🚀 Requirements
 
@@ -48,26 +47,15 @@ Execute `/help` of the bot to view all available commands!
 
 3. **Configuration**
 
-Create a **config.json** file in the **root** directory with the following structure:
+Create a `.env` file in the root directory (you can rename the `.env.example` to `.env`) and fill in the required values:
 
-```json
-{
-  "token": "YOUR_DISCORD_BOT_TOKEN",
-  "clientId": "YOUR_CLIENT_ID",
-  "voteLink": "YOUR_BOT_VOTE_LINK",
-  "inviteLink": "YOUR_BOT_INVITE_LINK",
-  "statusMessages": [
-    "Playing smooth jazz",
-    "Streaming 24/7",
-    "Chill vibes only",
-    "Tune in to relax",
-    "Contemporary Jazz",
-    "DJ Hmida",
-    "Pure Jazz",
-    "Saxophone Instrument"
-  ],
-  "statusInterval": 60000 // Interval in milliseconds
-}
+```
+TOKEN=YOUR_DISCORD_BOT_TOKEN
+CLIENT_ID=YOUR_CLIENT_ID
+VOTE_LINK=YOUR_BOT_VOTE_LINK
+INVITE_LINK=YOUR_BOT_INVITE_LINK
+STATUS_MESSAGES=Playing smooth jazz,Streaming 24/7,Chill vibes only
+STATUS_INTERVAL=60000
 ```
 
 Replace the placeholders with the appropriate information.
@@ -80,7 +68,7 @@ Run the following command to register your bot's commands while being the projec
   node utils/deploy-commands.js
 ```
 
-## 🕹️ Usage 
+## 🕹️ Usage
 
 1. **Start the Bot**
 
@@ -92,13 +80,11 @@ Run the following command to register your bot's commands while being the projec
 
     Use the commands from the `/help` command
 
-
 ## 🤝 Contributing
 
 1. **Fork the Repository**
 
     Create a fork of this repository to make changes.
-
 
 2. **Clone your Work**
 
@@ -114,9 +100,8 @@ Run the following command to register your bot's commands while being the projec
 ```
 
 4. **Make Changes**
-    
-    Implement your feature or fix.
 
+    Implement your feature or fix.
 
 5. **Commit Changes**
 
@@ -133,7 +118,7 @@ Run the following command to register your bot's commands while being the projec
 
 7. **Create a Pull Request**
 
-   Submit a pull request with your changes.
+    Submit a pull request with your changes.
 
 ## 📄 License
 
