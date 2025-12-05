@@ -1,0 +1,20 @@
+{
+    "statusMessages": [
+        "JazzRadio Hits",
+        "Miles Davis",
+        "John Coltrane",
+        "Louis Armstrong",
+        "Duke Ellington",
+        "Charlie Parker",
+        "Bill Evans",
+        "Ella Fitzgerald",
+        "Frank Sinatra",
+        "Chet Baker",
+        "Dave Brubeck",
+        "Herbie Hancock",
+        "Stan Getz",
+        "Nina Simone"
+    ],
+    "statusInterval": 30000,
+    "radioUrl": "https://jazz-wr05.ice.infomaniak.ch/jazz-wr05-128.mp3"
+}

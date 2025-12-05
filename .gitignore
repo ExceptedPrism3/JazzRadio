@@ -3,7 +3,7 @@
 
 # Environment Variables
 .env
-config.json
+
 
 # Logs
 *.log

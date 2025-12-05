@@ -17,7 +17,7 @@ for (const file of commandFiles) {
 }
 
 const { getChannels } = require('./utils/database');
-const { createPlayer } = require('./utils/player');
+const { createPlayer, stopPlayer } = require('./utils/player');
 
 client.once('ready', async () => {
     logger.info(`Logged in as ${client.user.tag}!`);
@@ -45,6 +45,14 @@ client.once('ready', async () => {
 });
 
 client.on('interactionCreate', async (interaction) => {
+    if (interaction.isButton()) {
+        if (interaction.customId === 'stop_radio') {
+            stopPlayer(interaction.guild.id);
+            await interaction.reply({ content: '🛑 Radio stopped and left the channel.', ephemeral: true });
+            return;
+        }
+    }
+
     if (!interaction.isCommand()) return;
 
     const command = client.commands.get(interaction.commandName);

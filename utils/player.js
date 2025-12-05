@@ -8,6 +8,7 @@ const {
 } = require('@discordjs/voice');
 const logger = require('./logger');
 const db = require('./database');
+const config = require('../config.json');
 
 const players = new Map();
 
@@ -23,7 +24,7 @@ function createPlayer(guild, channelId) {
     });
 
     const player = createAudioPlayer();
-    const streamLink = 'https://jazz-wr05.ice.infomaniak.ch/jazz-wr05-128.mp3';
+    const streamLink = config.radioUrl;
 
     const resource = createAudioResource(streamLink);
     player.play(resource);
@@ -42,7 +43,7 @@ function createPlayer(guild, channelId) {
             ]);
             // Connection recovered
         } catch (error) {
-            // Connection not recoverable, destroy it
+            logger.error('Connection not recoverable, destroying it:', error);
             stopPlayer(guild.id);
         }
     });

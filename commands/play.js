@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { getPlayer, createPlayer } = require('../utils/player');
 const { entersState, AudioPlayerStatus } = require('@discordjs/voice');
 const logger = require('../utils/logger');
@@ -34,7 +34,16 @@ module.exports = {
                 .setColor('#00FF00')
                 .setTitle('✅ Success')
                 .setDescription('The audio is now playing! 🔊');
-            await interaction.editReply({ embeds: [successEmbed], ephemeral: true });
+
+            const stopButton = new ButtonBuilder()
+                .setCustomId('stop_radio')
+                .setLabel('Stop Radio')
+                .setStyle(ButtonStyle.Danger)
+                .setEmoji('🛑');
+
+            const row = new ActionRowBuilder().addComponents(stopButton);
+
+            await interaction.editReply({ embeds: [successEmbed], components: [row], ephemeral: true });
         } catch (error) {
             logger.error('Error while trying to play audio:', error);
             const errorEmbed = new EmbedBuilder()

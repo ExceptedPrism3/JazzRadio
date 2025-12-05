@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { getPlayer, stopPlayer } = require('../utils/player');
 
 module.exports = {
-    data: new SlashCommandBuilder().setName('leave').setDescription('Stops the bot and leaves the voice channel'),
+    data: new SlashCommandBuilder().setName('stop').setDescription('🛑 Stop the radio and leave the voice channel.'),
     async execute(interaction) {
         const player = getPlayer(interaction.guild.id);
 
