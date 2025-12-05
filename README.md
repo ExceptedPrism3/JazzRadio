@@ -1,7 +1,7 @@
 
 # 🎷 JazzRadio
 
-![Banner](https://img.shields.io/badge/JazzRadio-v4.0-blueviolet?style=for-the-badge)
+![Banner](preview/JazzRadio.gif)
 
 ![Node.js](https://img.shields.io/badge/Node.js-v20+-green?style=for-the-badge&logo=node.js)
 ![Discord.js](https://img.shields.io/badge/Discord.js-v14-blue?style=for-the-badge&logo=discord)
