@@ -1,133 +1,96 @@
-# JazzRadio
 
-![NodeJS](https://img.shields.io/badge/NodeJS-18-green.svg)
-![Discord.js](https://img.shields.io/badge/Discord.js-v14-blue.svg)
+# 🎷 JazzRadio
 
-## Overview
+![Banner](https://img.shields.io/badge/JazzRadio-v4.0-blueviolet?style=for-the-badge)
 
-JazzRadio Bot is a Discord bot that streams smooth jazz music in voice channels.
-It supports various commands such as `/play`, `/stop`, `/leave`, `/info`, `/vote`, and `/help`.
-The bot also features a rotating activity status to keep things lively.
-
-You can find this bot **[here](https://top.gg/bot/955048681025978438)**, or you can invite it from **[here](https://discord.com/api/oauth2/authorize?client_id=968211299043536976&permissions=277028895808&scope=bot%20applications.commands)**.
-
-Execute `/help` of the bot to view all available commands!
+**JazzRadio** is a Discord bot dedicated to streaming smooth, high-quality Jazz music 24/7. Built with modern Discord.js and optimized for performance.
 
 ## 🌟 Features
 
-- **Play Music**: Stream smooth jazz in voice channels.
-- **Status Rotation**: Rotates activity status messages.
-- **Command Handling**: Includes commands for playing, stopping, leaving, and more.
-- **24/7**: Bot keeps playing the Jazz all day / night long.
-- **Error Logging**: All errors are kept in an error.log file for you to inspect.
-- Auto-Rejoin: Automatically rejoins the voice channel when restarting or crashing.
+- **24/7 Streaming**: Continuous smooth Jazz stream.
+- **High Quality Audio**: Uses `sodium-native` for optimal performance.
+- **Easy Control**: Interactive **Stop Button** 🛑 and slash commands.
+- **Auto Reconnection**: Automatically rejoins if the stream or connection drops.
+- **Custom Status**: Rotates through legendary Jazz artists.
 
-## 🚀 Requirements
+## 🛠️ Installation
 
-- **Node.js**: Version 18.x or later.
-- **Discord.js**: Version 14.x or later.
-- **@discordjs/voice**: For voice-related features.
+### Prerequisites
 
-## ⚙️ Installation
+- **Node.js v20.0.0** or higher
+- **npm** (Node Package Manager)
+- **FFmpeg** (Required for audio processing)
 
-1. **Clone the Repository**
-
+### Linux (Ubuntu/Debian) Requirements
+If running on Linux, you must install build tools for the encryption libraries:
 ```bash
-  git clone https://github.com/ExceptedPrism3/JazzRadio.git
-  cd JazzRadio
+sudo apt-get update
+sudo apt-get install -y build-essential python3 libtool automake autoconf ffmpeg
 ```
 
-2. **Install Dependencies**
+### Steps
 
-⚠️ **Ensure you have Node.js installed.** Then run:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ExceptedPrism3/JazzRadio.git
+   cd JazzRadio
+   ```
 
-```bash
-  npm install
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-3. **Configuration**
+3. **Create a `.env` file:**
+   ```env
+   TOKEN=your_bot_token
+   ```
 
-Create a `.env` file in the root directory (you can rename the `.env.example` to `.env`) and fill in the required values:
+4. **Configure the bot (Optional):**
+   Edit `config.json` to customize the status messages or radio URL.
 
-```
-TOKEN=YOUR_DISCORD_BOT_TOKEN
-CLIENT_ID=YOUR_CLIENT_ID
-VOTE_LINK=YOUR_BOT_VOTE_LINK
-INVITE_LINK=YOUR_BOT_INVITE_LINK
-STATUS_MESSAGES=Playing smooth jazz,Streaming 24/7,Chill vibes only
-STATUS_INTERVAL=60000
-```
+5. **Register Commands:**
+   ```bash
+   node utils/deploy-commands.js
+   ```
 
-Replace the placeholders with the appropriate information.
+6. **Run the bot:**
+   ```bash
+   # For development
+   node index.js
 
-4. **Register Commands**
+   # For production (recommended)
+   pm2 start index.js --name jazzradio
+   ```
 
-Run the following command to register your bot's commands while being the project root:
+## 🎮 Commands
 
-```bash
-  node utils/deploy-commands.js
-```
+- **/play** - 🎷 Start playing the Jazz stream in your voice channel.
+- **/stop** - 🛑 Stop the radio and leave the channel.
+- **/ping** - 🏓 Check the bot's latency.
+- **/uptime** - ⏱️ Check how long the bot has been running.
+- **/info** - ℹ️ Get information about the bot.
+- **/vote** - 🗳️ Get voting and invite links.
+- **/help** - ❓ List all available commands.
 
-## 🕹️ Usage
+## 🤝 Contribution
 
-1. **Start the Bot**
+We welcome contributions! Feel free to fork this project, submit issues, or create pull requests.
 
-```bash
-  node index.js
-```
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes.
+4. Push to the branch.
+5. Create a new Pull Request.
 
-2. **Commands**
+## 📜 License
 
-    Use the commands from the `/help` command
-
-## 🤝 Contributing
-
-1. **Fork the Repository**
-
-    Create a fork of this repository to make changes.
-
-2. **Clone your Work**
-
-```bash
-  git clone https://github.com/ExceptedPrism3/JazzrRdio.git
-  cd JazzRadio
-```
-
-3. **Create a Branch**
-
-```bash
-  git checkout -b your-feature-branch
-```
-
-4. **Make Changes**
-
-    Implement your feature or fix.
-
-5. **Commit Changes**
-
-```bash
-  git add .
-  git commit -m "Add your commit message here"
-```
-
-6. **Push the Changes**
-
-```bash
-  git push origin your-feature-branch
-```
-
-7. **Create a Pull Request**
-
-    Submit a pull request with your changes.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the **[LICENSE](LICENSE)** file for details.
+This project is licensed under the **GNU AGPL v3** License - see the **[LICENSE](LICENSE)** file for details.
 
 ## ✉️ Contact
 
-For any questions or feedback, please reach out over the **[Discord Support Server](https://discord.com/invite/MfR5mcpVfX)** or open an **[Issue](https://github.com/ExceptedPrism3/JazzRadio/issues)** on GitHub.
+For any questions or feedback, please reach out over the **[Discord Support Server](https://discord.gg/MfR5mcpVfX)** or open an **[Issue](https://github.com/ExceptedPrism3/JazzRadio/issues)** on GitHub.
 
-<br>
+---
 
-🎉 **Enjoy using JazzRadio Bot and happy coding!**
+Made with ❤️ by **Prism3**
