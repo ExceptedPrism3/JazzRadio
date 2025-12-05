@@ -3,6 +3,15 @@
 
 ![Banner](https://img.shields.io/badge/JazzRadio-v4.0-blueviolet?style=for-the-badge)
 
+![Node.js](https://img.shields.io/badge/Node.js-v20+-green?style=for-the-badge&logo=node.js)
+![Discord.js](https://img.shields.io/badge/Discord.js-v14-blue?style=for-the-badge&logo=discord)
+![License](https://img.shields.io/badge/License-AGPL_v3-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![Code Style](https://img.shields.io/badge/Code_Style-Prettier-ff69b4?style=for-the-badge&logo=prettier)
+![Genre](https://img.shields.io/badge/Genre-Smooth_Jazz-purple?style=for-the-badge&logo=applemusic)
+![Uptime](https://img.shields.io/badge/Uptime-24%2F7-blue?style=for-the-badge)
+![Quality](https://img.shields.io/badge/Quality-High_Definition-orange?style=for-the-badge)
+
 **JazzRadio** is a Discord bot dedicated to streaming smooth, high-quality Jazz music 24/7. Built with modern Discord.js and optimized for performance.
 
 ## 🌟 Features
