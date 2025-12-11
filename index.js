@@ -39,7 +39,7 @@ client.once('ready', async () => {
         } catch (error) {
             logger.error(`Failed to auto-rejoin channel for guild ${row.guild_id}:`, error);
             // If we can't rejoin, remove the entry to avoid future errors
-            require('./utils/database').removeChannel(row.guild_id);
+            // require('./utils/database').removeChannel(row.guild_id); // FIXED: Don't remove channel on error, allows auto-rejoin
         }
     }
 });
