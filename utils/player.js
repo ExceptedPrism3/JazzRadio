@@ -31,8 +31,17 @@ function createPlayer(guild, channelId) {
 
     // Auto-reconnect logic
     player.on(AudioPlayerStatus.Idle, () => {
-        const newResource = createAudioResource(streamLink);
-        player.play(newResource);
+        // Wait a bit before trying to play again to avoid spamming if the stream is dead
+        setTimeout(() => {
+             try {
+                const newResource = createAudioResource(streamLink);
+                player.play(newResource);
+             } catch (error) {
+                 logger.error('Failed to restart stream:', error);
+                 // If resource creation fails, maybe try again later or destroy?
+                 // For now, reliance on PM2 or manual restart if stream is permanently dead.
+             }
+        }, 3000);
     });
 
     connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
