@@ -33,60 +33,39 @@ function createPlayer(guild, channelId) {
     player.on(AudioPlayerStatus.Idle, () => {
         // Wait a bit before trying to play again to avoid spamming if the stream is dead
         setTimeout(() => {
-             try {
+            try {
                 const newResource = createAudioResource(streamLink);
                 player.play(newResource);
-             } catch (error) {
-                 logger.error('Failed to restart stream:', error);
-                 // If resource creation fails, maybe try again later or destroy?
-                 // For now, reliance on PM2 or manual restart if stream is permanently dead.
-             }
+            } catch (error) {
+                logger.error('Failed to restart stream:', error);
+                // If resource creation fails, maybe try again later or destroy?
+                // For now, reliance on PM2 or manual restart if stream is permanently dead.
+            }
         }, 3000);
     });
 
     connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
         try {
             await Promise.race([
-                entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
-                entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
+                entersState(connection, VoiceConnectionStatus.Signalling, 20_000),
+                entersState(connection, VoiceConnectionStatus.Connecting, 20_000),
             ]);
             // Connection recovered
         } catch (error) {
-            // Connection not recovered gracefully within 5 seconds.
-            // Check if we can/should try to force a rejoin or just log it.
-            // If the socket closed with 4014, it might be a channel move, which Discord handles.
-            // If it's a real disconnect (e.g. 521), we should try to rejoin.
-
-            // For now, let's just destroy and let the DB state persist it for a restart/rejoin cycle, 
-            // OR implement the same loop as HitRadio. 
-            // Given JazzRadio structure is simpler, let's keep it simple:
-            // Just DESTROY the connection but DONT delete from DB.
-            // This way, if we have an external restarter (pm2) or interval check (index.js), it can recover.
-
-            // Actually, better to try to rejoin once if possible, but without 'rejoinAttempts' tracking in this scope it's hard.
-            // HitRadio's player is a class, JazzRadio is functions.
-            // Let's mirror HitRadio's logic as best as possible within this function scope:
-
-            logger.error('Connection disconnected. Attempting naive rejoin...');
+            logger.error('Connection not recoverable, destroying it:', error);
             try {
-                connection.destroy();
-                // We rely on the index.js loop or manual restart to pick it up, 
-                // OR we can rely on `stateChange` -> Destroyed logic (if we added it).
-
-                // But wait, user wants the SAME fix. HitRadio fix = auto-reconnect logic.
-                // Since this `createPlayer` function returns the player and sets up listeners, 
-                // we can just re-call joinVoiceChannel here?
-
-                // Let's stick to the modification plan:
-                // 1. Destroy connection (so it's not a zombie)
-                // 2. DO NOT call stopPlayer() which deletes DB entry.
-
-                logger.error('Destroying zombie connection. DB entry preserved for auto-recovery.');
-                connection.destroy();
-                // stopPlayer(guild.id); // <-- DISABLED to allow persistence
-            } catch (e) {
-                logger.error('Error destroying connection:', e);
+                if (connection.state.status !== VoiceConnectionStatus.Destroyed) {
+                    connection.destroy();
+                }
+            } catch (err) {
+                logger.error('Failed to destroy connection:', err);
             }
+
+            // CRITICAL FIX: Remove from memory map so /play works again
+            players.delete(guild.id);
+
+            // Note: We intentionally do NOT remove from DB (db.removeChannel), 
+            // so that the bot "remembers" it should be here if it restarts.
         }
     });
 
