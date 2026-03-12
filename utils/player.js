@@ -5,6 +5,7 @@ const {
     entersState,
     AudioPlayerStatus,
     VoiceConnectionStatus,
+    NoSubscriberBehavior,
 } = require('@discordjs/voice');
 const logger = require('./logger');
 const db = require('./database');
@@ -23,10 +24,17 @@ function createPlayer(guild, channelId) {
         adapterCreator: guild.voiceAdapterCreator,
     });
 
-    const player = createAudioPlayer();
+    const player = createAudioPlayer({
+        behaviors: {
+            noSubscriber: NoSubscriberBehavior.Play,
+        },
+    });
     const streamLink = config.radioUrl;
 
-    const resource = createAudioResource(streamLink);
+    const resource = createAudioResource(streamLink, {
+        inputType: 'unknown',
+        inlineVolume: false
+    });
     player.play(resource);
 
     // Auto-reconnect logic
@@ -34,7 +42,10 @@ function createPlayer(guild, channelId) {
         // Wait a bit before trying to play again to avoid spamming if the stream is dead
         setTimeout(() => {
             try {
-                const newResource = createAudioResource(streamLink);
+                const newResource = createAudioResource(streamLink, {
+                    inputType: 'unknown',
+                    inlineVolume: false
+                });
                 player.play(newResource);
             } catch (error) {
                 logger.error('Failed to restart stream:', error);
@@ -52,7 +63,20 @@ function createPlayer(guild, channelId) {
             ]);
             // Connection recovered
         } catch (error) {
-            logger.error('Connection not recoverable, destroying it:', error);
+            logger.error('Connection not recoverable, attempting to rejoin...');
+            
+            if (connection.rejoinAttempts === undefined) {
+                connection.rejoinAttempts = 0;
+            }
+
+            if (connection.rejoinAttempts < 5) {
+                await new Promise(resolve => setTimeout(resolve, (connection.rejoinAttempts + 1) * 2000));
+                connection.rejoinAttempts++;
+                connection.rejoin();
+                return;
+            }
+
+            logger.error('Rejoin failed after 5 attempts, destroying connection');
             try {
                 if (connection.state.status !== VoiceConnectionStatus.Destroyed) {
                     connection.destroy();
@@ -67,6 +91,10 @@ function createPlayer(guild, channelId) {
             // Note: We intentionally do NOT remove from DB (db.removeChannel), 
             // so that the bot "remembers" it should be here if it restarts.
         }
+    });
+
+    connection.on(VoiceConnectionStatus.Ready, () => {
+        connection.rejoinAttempts = 0;
     });
 
     connection.subscribe(player);
