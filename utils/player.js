@@ -17,12 +17,23 @@ function getPlayer(guildId) {
     return players.get(guildId);
 }
 
-function createPlayer(guild, channelId) {
+async function createPlayer(guild, channelId) {
     const connection = joinVoiceChannel({
         channelId: channelId,
         guildId: guild.id,
         adapterCreator: guild.voiceAdapterCreator,
     });
+
+    try {
+        await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
+        logger.info(`Connection to voice channel ${channelId} in guild ${guild.id} is ready.`);
+    } catch (error) {
+        logger.error(`Failed to connect to voice channel in guild ${guild.id}:`, error);
+        if (connection.state.status !== VoiceConnectionStatus.Destroyed) {
+            connection.destroy();
+        }
+        throw error;
+    }
 
     const player = createAudioPlayer({
         behaviors: {

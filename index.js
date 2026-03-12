@@ -35,7 +35,7 @@ client.once('ready', async () => {
             const channel = await guild.channels.fetch(row.channel_id);
             if (!channel || !channel.isVoiceBased()) continue;
 
-            createPlayer(guild, channel.id);
+            await createPlayer(guild, channel.id);
         } catch (error) {
             logger.error(`Failed to auto-rejoin channel for guild ${row.guild_id}:`, error);
             // If we can't rejoin, remove the entry to avoid future errors

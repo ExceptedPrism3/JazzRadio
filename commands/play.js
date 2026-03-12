@@ -26,7 +26,15 @@ module.exports = {
             return interaction.editReply({ embeds: [messageEmbed], ephemeral: true });
         }
 
-        player = createPlayer(interaction.guild, channel.id);
+        try {
+            player = await createPlayer(interaction.guild, channel.id);
+        } catch (error) {
+            const errorEmbed = new EmbedBuilder()
+                .setColor('#FF0000')
+                .setTitle('🚫 Error')
+                .setDescription('There was a problem joining the voice channel.');
+            return interaction.editReply({ embeds: [errorEmbed], ephemeral: true });
+        }
 
         try {
             await entersState(player, AudioPlayerStatus.Playing, 5e3);
