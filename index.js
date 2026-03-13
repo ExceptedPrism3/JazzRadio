@@ -16,8 +16,27 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-const { getChannels } = require('./utils/database');
+const { getChannels, removeChannel } = require('./utils/database');
 const { createPlayer, stopPlayer } = require('./utils/player');
+
+async function autoRejoinWithRetry(guild, channelId, guildId, attempt = 0) {
+    const MAX_ATTEMPTS = 5;
+    const BASE_DELAY_MS = 5000;
+
+    try {
+        await createPlayer(guild, channelId);
+        logger.info(`Auto-rejoin successful for guild ${guildId}`);
+    } catch (error) {
+        logger.error(`Failed to auto-rejoin channel for guild ${guildId} (attempt ${attempt + 1}):`, error?.message ?? String(error));
+        if (attempt < MAX_ATTEMPTS - 1) {
+            const delay = BASE_DELAY_MS * Math.pow(2, attempt);
+            logger.info(`Retrying auto-rejoin for guild ${guildId} in ${delay / 1000}s...`);
+            setTimeout(() => autoRejoinWithRetry(guild, channelId, guildId, attempt + 1), delay);
+        } else {
+            logger.error(`Giving up auto-rejoin for guild ${guildId} after ${MAX_ATTEMPTS} attempts.`);
+        }
+    }
+}
 
 client.once('ready', async () => {
     logger.info(`Logged in as ${client.user.tag}!`);
@@ -25,32 +44,50 @@ client.once('ready', async () => {
     // Start rotating the status messages
     rotateStatus(client);
 
-    // Auto-rejoin logic
-    const channels = getChannels();
-    for (const row of channels) {
-        try {
-            const guild = await client.guilds.fetch(row.guild_id);
-            if (!guild) continue;
+    // Delay auto-rejoin to avoid Discord rate limiting on rapid restarts.
+    // Stagger each guild by 4s to avoid voice connection rate limits.
+    setTimeout(async () => {
+        const channels = getChannels();
+        let delayMs = 0;
+        const STAGGER_MS = 4000;
+        for (const row of channels) {
+            setTimeout(async () => {
+                try {
+                    const guild = await client.guilds.fetch(row.guild_id);
+                    if (!guild) {
+                        logger.info(`Removing stale guild ${row.guild_id} from DB (bot not in guild)`);
+                        removeChannel(row.guild_id);
+                        return;
+                    }
 
-            const channel = await guild.channels.fetch(row.channel_id);
-            if (!channel || !channel.isVoiceBased()) continue;
+                    const channel = await guild.channels.fetch(row.channel_id);
+                    if (!channel || !channel.isVoiceBased()) {
+                        logger.info(`Removing stale channel for guild ${row.guild_id} (channel missing or not voice)`);
+                        removeChannel(row.guild_id);
+                        return;
+                    }
 
-            createPlayer(guild, channel.id).catch(error => {
-                logger.error(`Failed to auto-rejoin channel for guild ${row.guild_id}:`, error);
-                // If we can't rejoin, remove the entry to avoid future errors
-                // require('./utils/database').removeChannel(row.guild_id); // FIXED: Don't remove channel on error, allows auto-rejoin
-            });
-        } catch (error) {
-            logger.error(`Failed to fetch guild or channel for ${row.guild_id}:`, error);
+                    autoRejoinWithRetry(guild, channel.id, row.guild_id);
+                } catch (error) {
+                    const isUnknownGuild = error.code === 10004 || (error.body && error.body.code === 10004);
+                    if (isUnknownGuild) {
+                        logger.info(`Removing stale guild ${row.guild_id} from DB (Unknown Guild)`);
+                        removeChannel(row.guild_id);
+                    } else {
+                        logger.error(`Failed to fetch guild or channel for ${row.guild_id}:`, error);
+                    }
+                }
+            }, delayMs);
+            delayMs += STAGGER_MS;
         }
-    }
+    }, 15000); // 15s startup delay before trying to rejoin
 });
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         if (interaction.customId === 'stop_radio') {
             stopPlayer(interaction.guild.id);
-            await interaction.reply({ content: '🛑 Radio stopped and left the channel.', ephemeral: true });
+            await interaction.reply({ content: '🛑 Radio stopped and left the channel.', flags: 64 });
             return;
         }
     }
@@ -66,9 +103,9 @@ client.on('interactionCreate', async (interaction) => {
     } catch (error) {
         logger.error(`Error executing command: ${interaction.commandName}`, error);
         if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.followUp({ content: 'There was an error while executing this command!', flags: 64 });
         } else {
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.reply({ content: 'There was an error while executing this command!', flags: 64 });
         }
     }
 });
