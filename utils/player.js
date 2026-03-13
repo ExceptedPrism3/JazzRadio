@@ -6,7 +6,9 @@ const {
     AudioPlayerStatus,
     VoiceConnectionStatus,
     NoSubscriberBehavior,
+    StreamType,
 } = require('@discordjs/voice');
+// entersState kept for Disconnected recovery below
 const logger = require('./logger');
 const db = require('./database');
 const config = require('../config.json');
@@ -17,6 +19,32 @@ function getPlayer(guildId) {
     return players.get(guildId);
 }
 
+function waitForReady(connection, timeoutMs = 60e3) {
+    return new Promise((resolve, reject) => {
+        if (connection.state.status === VoiceConnectionStatus.Ready) {
+            resolve();
+            return;
+        }
+        const timeout = setTimeout(() => {
+            connection.removeListener(VoiceConnectionStatus.Ready, onReady);
+            connection.removeListener(VoiceConnectionStatus.Destroyed, onDestroyed);
+            reject(new Error('Voice connection timed out'));
+        }, timeoutMs);
+        const onReady = () => {
+            clearTimeout(timeout);
+            connection.removeListener(VoiceConnectionStatus.Destroyed, onDestroyed);
+            resolve();
+        };
+        const onDestroyed = () => {
+            clearTimeout(timeout);
+            connection.removeListener(VoiceConnectionStatus.Ready, onReady);
+            reject(new Error('Connection destroyed before ready'));
+        };
+        connection.once(VoiceConnectionStatus.Ready, onReady);
+        connection.once(VoiceConnectionStatus.Destroyed, onDestroyed);
+    });
+}
+
 async function createPlayer(guild, channelId) {
     const connection = joinVoiceChannel({
         channelId: channelId,
@@ -24,8 +52,9 @@ async function createPlayer(guild, channelId) {
         adapterCreator: guild.voiceAdapterCreator,
     });
 
+
     try {
-        await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
+        await waitForReady(connection, 60e3);
         logger.info(`Connection to voice channel ${channelId} in guild ${guild.id} is ready.`);
     } catch (error) {
         logger.error(`Failed to connect to voice channel in guild ${guild.id}:`, error);
@@ -43,10 +72,26 @@ async function createPlayer(guild, channelId) {
     const streamLink = config.radioUrl;
 
     const resource = createAudioResource(streamLink, {
-        inputType: 'unknown',
+        inputType: StreamType.Arbitrary,
         inlineVolume: false
     });
     player.play(resource);
+
+    // Log and recover from stream errors
+    player.on('error', error => {
+        logger.error('AudioPlayer error, attempting stream recovery:', error.message);
+        setTimeout(() => {
+            try {
+                const recoveryResource = createAudioResource(streamLink, {
+                    inputType: StreamType.Arbitrary,
+                    inlineVolume: false
+                });
+                player.play(recoveryResource);
+            } catch (err) {
+                logger.error('Failed to recover from player error:', err);
+            }
+        }, 3000);
+    });
 
     // Auto-reconnect logic
     player.on(AudioPlayerStatus.Idle, () => {
@@ -54,14 +99,12 @@ async function createPlayer(guild, channelId) {
         setTimeout(() => {
             try {
                 const newResource = createAudioResource(streamLink, {
-                    inputType: 'unknown',
+                    inputType: StreamType.Arbitrary,
                     inlineVolume: false
                 });
                 player.play(newResource);
             } catch (error) {
                 logger.error('Failed to restart stream:', error);
-                // If resource creation fails, maybe try again later or destroy?
-                // For now, reliance on PM2 or manual restart if stream is permanently dead.
             }
         }, 3000);
     });
@@ -75,7 +118,7 @@ async function createPlayer(guild, channelId) {
             // Connection recovered
         } catch (error) {
             logger.error('Connection not recoverable, attempting to rejoin...');
-            
+
             if (connection.rejoinAttempts === undefined) {
                 connection.rejoinAttempts = 0;
             }
@@ -96,10 +139,10 @@ async function createPlayer(guild, channelId) {
                 logger.error('Failed to destroy connection:', err);
             }
 
-            // CRITICAL FIX: Remove from memory map so /play works again
+            // Remove from memory map so /play works again
             players.delete(guild.id);
 
-            // Note: We intentionally do NOT remove from DB (db.removeChannel), 
+            // Note: We intentionally do NOT remove from DB (db.removeChannel),
             // so that the bot "remembers" it should be here if it restarts.
         }
     });
