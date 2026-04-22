@@ -42,6 +42,8 @@
         "url": "https://github.com/ExceptedPrism3/JazzRadio/issues"
     },
     "overrides": {
-        "undici": ">=6.23.0"
+        "undici": ">=6.23.0",
+        "lodash": ">=4.18.1",
+        "flatted": ">=3.4.2"
     }
 }
