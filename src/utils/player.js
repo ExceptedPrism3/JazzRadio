@@ -8,15 +8,28 @@ const {
     NoSubscriberBehavior,
     StreamType,
 } = require('@discordjs/voice');
-// entersState kept for Disconnected recovery below
 const logger = require('./logger');
 const db = require('./database');
-const config = require('../config.json');
+const config = require('../../config.json');
 
 const players = new Map();
 
 function getPlayer(guildId) {
     return players.get(guildId);
+}
+
+function isPlayerActive(guildId) {
+    const playerInstance = players.get(guildId);
+    if (!playerInstance || !playerInstance.connection) return false;
+    return playerInstance.connection.state.status !== VoiceConnectionStatus.Destroyed;
+}
+
+function clearStalePlayer(guildId) {
+    const playerInstance = players.get(guildId);
+    if (!playerInstance || !playerInstance.connection) return;
+    if (playerInstance.connection.state.status === VoiceConnectionStatus.Destroyed) {
+        players.delete(guildId);
+    }
 }
 
 function waitForReady(connection, timeoutMs = 60e3) {
@@ -52,7 +65,6 @@ async function createPlayer(guild, channelId) {
         adapterCreator: guild.voiceAdapterCreator,
     });
 
-
     try {
         await waitForReady(connection, 60e3);
         logger.info(`Connection to voice channel ${channelId} in guild ${guild.id} is ready.`);
@@ -73,18 +85,18 @@ async function createPlayer(guild, channelId) {
 
     const resource = createAudioResource(streamLink, {
         inputType: StreamType.Arbitrary,
-        inlineVolume: false
+        inlineVolume: false,
     });
     player.play(resource);
 
     // Log and recover from stream errors
-    player.on('error', error => {
+    player.on('error', (error) => {
         logger.error('AudioPlayer error, attempting stream recovery:', error.message);
         setTimeout(() => {
             try {
                 const recoveryResource = createAudioResource(streamLink, {
                     inputType: StreamType.Arbitrary,
-                    inlineVolume: false
+                    inlineVolume: false,
                 });
                 player.play(recoveryResource);
             } catch (err) {
@@ -100,7 +112,7 @@ async function createPlayer(guild, channelId) {
             try {
                 const newResource = createAudioResource(streamLink, {
                     inputType: StreamType.Arbitrary,
-                    inlineVolume: false
+                    inlineVolume: false,
                 });
                 player.play(newResource);
             } catch (error) {
@@ -109,14 +121,14 @@ async function createPlayer(guild, channelId) {
         }, 3000);
     });
 
-    connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
+    connection.on(VoiceConnectionStatus.Disconnected, async () => {
         try {
             await Promise.race([
                 entersState(connection, VoiceConnectionStatus.Signalling, 20_000),
                 entersState(connection, VoiceConnectionStatus.Connecting, 20_000),
             ]);
             // Connection recovered
-        } catch (error) {
+        } catch {
             logger.error('Connection not recoverable, attempting to rejoin...');
 
             if (connection.rejoinAttempts === undefined) {
@@ -124,7 +136,7 @@ async function createPlayer(guild, channelId) {
             }
 
             if (connection.rejoinAttempts < 5) {
-                await new Promise(resolve => setTimeout(resolve, (connection.rejoinAttempts + 1) * 2000));
+                await new Promise((resolve) => setTimeout(resolve, (connection.rejoinAttempts + 1) * 2000));
                 connection.rejoinAttempts++;
                 connection.rejoin();
                 return;
@@ -151,6 +163,10 @@ async function createPlayer(guild, channelId) {
         connection.rejoinAttempts = 0;
     });
 
+    connection.on(VoiceConnectionStatus.Destroyed, () => {
+        players.delete(guild.id);
+    });
+
     connection.subscribe(player);
     players.set(guild.id, { connection, player });
     db.addChannel(guild.id, channelId);
@@ -169,6 +185,8 @@ function stopPlayer(guildId) {
 
 module.exports = {
     getPlayer,
+    isPlayerActive,
+    clearStalePlayer,
     createPlayer,
     stopPlayer,
 };

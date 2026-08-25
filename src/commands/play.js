@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { getPlayer, createPlayer } = require('../utils/player');
+const { getPlayer, isPlayerActive, clearStalePlayer, createPlayer } = require('../utils/player');
 const logger = require('../utils/logger');
 
 module.exports = {
@@ -16,8 +16,9 @@ module.exports = {
         }
 
         let player = getPlayer(interaction.guild.id);
+        clearStalePlayer(interaction.guild.id);
 
-        if (player) {
+        if (player && isPlayerActive(interaction.guild.id)) {
             const messageEmbed = new EmbedBuilder()
                 .setColor('#FF0000')
                 .setTitle('🚫 Error')

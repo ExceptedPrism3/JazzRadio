@@ -1,4 +1,3 @@
-
 # 🎷 JazzRadio
 
 ![Banner](preview/JazzRadio.gif)
@@ -22,6 +21,38 @@
 - **Auto Reconnection**: Automatically rejoins if the stream or connection drops.
 - **Custom Status**: Rotates through legendary Jazz artists.
 
+## 📁 Project Structure
+
+```
+JazzRadio/
+├── .env.example              # Environment variables template
+├── config.json               # Radio stream URL and rotation configuration
+├── eslint.config.js          # ESLint 9 configuration
+├── package.json              # Project metadata, dependencies, and scripts
+├── scripts/
+│   └── deploy-commands.js    # Slash command registration script
+├── src/
+│   ├── index.js              # Application entrypoint & client loader
+│   ├── commands/             # Slash command definitions
+│   │   ├── help.js
+│   │   ├── info.js
+│   │   ├── ping.js
+│   │   ├── play.js
+│   │   ├── stop.js
+│   │   ├── uptime.js
+│   │   └── vote.js
+│   ├── events/               # Discord client event handlers
+│   │   ├── interactionCreate.js
+│   │   └── ready.js
+│   └── utils/                # Core utilities (player, database, logger, statusRotator)
+│       ├── database.js
+│       ├── logger.js
+│       ├── player.js
+│       └── statusRotator.js
+├── data/                     # SQLite database storage (jazz.db)
+└── logs/                     # Application logs (error.log)
+```
+
 ## 🛠️ Installation
 
 ### Prerequisites
@@ -31,55 +62,64 @@
 - **FFmpeg** (Required for audio processing)
 
 ### Linux (Ubuntu/Debian) Requirements
-If running on Linux, you must install build tools for the encryption libraries:
+
+If running on Linux, install build tools for cryptographic libraries:
+
 ```bash
 sudo apt-get update
 sudo apt-get install -y build-essential python3 libtool automake autoconf ffmpeg
 ```
 
-### Steps
+### Setup Steps
 
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/ExceptedPrism3/JazzRadio.git
-   cd JazzRadio
-   ```
+
+    ```bash
+    git clone https://github.com/ExceptedPrism3/JazzRadio.git
+    cd JazzRadio
+    ```
 
 2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. **Create a `.env` file:**
-   ```env
-   TOKEN=your_bot_token
-   ```
+
+    ```bash
+    cp .env.example .env
+    ```
+
+    Fill in your `TOKEN` and `CLIENT_ID`.
 
 4. **Configure the bot (Optional):**
-   Edit `config.json` to customize the status messages or radio URL.
+   Edit `config.json` to customize status messages or the radio stream URL.
 
-5. **Register Commands:**
-   ```bash
-   node utils/deploy-commands.js
-   ```
+5. **Register Slash Commands:**
+
+    ```bash
+    npm run deploy
+    ```
 
 6. **Run the bot:**
-   ```bash
-   # For development
-   node index.js
 
-   # For production (recommended)
-   pm2 start index.js --name jazzradio
-   ```
+    ```bash
+    # For development
+    npm start
+
+    # For production (recommended)
+    pm2 start src/index.js --name jazzradio
+    ```
 
 ## 🎮 Commands
 
 - **/play** - 🎷 Start playing the Jazz stream in your voice channel.
 - **/stop** - 🛑 Stop the radio and leave the channel.
 - **/ping** - 🏓 Check the bot's latency.
-- **/uptime** - ⏱️ Check how long the bot has been running.
+- **/uptime** - ⏰ Check how long the bot has been running.
 - **/info** - ℹ️ Get information about the bot.
-- **/vote** - 🗳️ Get voting and invite links.
+- **/vote** - 📊 Get voting and server invite links.
 - **/help** - ❓ List all available commands.
 
 ## 🤝 Contribution

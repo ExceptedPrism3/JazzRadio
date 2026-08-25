@@ -1,10 +1,12 @@
 {
     "name": "jazzradio",
-    "version": "4.0",
+    "version": "4.2",
     "description": "Pure Jazz Music to your ears.",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node src/index.js",
+        "dev": "node src/index.js",
+        "deploy": "node scripts/deploy-commands.js",
         "lint": "eslint .",
         "format": "prettier --write ."
     },
@@ -20,7 +22,7 @@
         "radio-music-bot"
     ],
     "author": "Prism3",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "dependencies": {
         "@discordjs/voice": "^0.19.1",
         "better-sqlite3": "^12.2.0",
@@ -42,8 +44,11 @@
         "url": "https://github.com/ExceptedPrism3/JazzRadio/issues"
     },
     "overrides": {
-        "undici": ">=6.23.0",
+        "undici": ">=7.29.0",
         "lodash": ">=4.18.1",
-        "flatted": ">=3.4.2"
+        "flatted": ">=3.4.2",
+        "ws": ">=8.21.0",
+        "brace-expansion": ">=1.1.18",
+        "js-yaml": ">=4.3.1"
     }
 }

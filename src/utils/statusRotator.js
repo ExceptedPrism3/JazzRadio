@@ -1,6 +1,5 @@
 const { ActivityType } = require('discord.js');
-
-const config = require('../config.json');
+const config = require('../../config.json');
 
 function rotateStatus(client) {
     const statusMessages = config.statusMessages;

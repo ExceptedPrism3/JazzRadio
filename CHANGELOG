@@ -70,3 +70,21 @@ Changes
 
 Fixes
     [!] Cleaned up console logs for a quieter startup process.
+
+<-!------------------------------ 4.2 ------------------------------!->
+
+Additions
+    [+] Modularized event handling system under `src/events/` (ready and interactionCreate).
+    [+] Added dedicated command deployment script under `scripts/deploy-commands.js`.
+    [+] Added `npm start`, `npm run dev`, and `npm run deploy` package scripts.
+    [+] Migrated ESLint to modern flat config format (`eslint.config.js`) supporting ESLint 9+.
+
+Changes
+    [*] Restructured project files into standard professional `src/` layout.
+    [*] Updated package metadata and license descriptor to AGPL-3.0.
+    [*] Standardized and documented all environment variables in `.env.example`.
+    [*] Enhanced /help command embed with accurate command descriptions and icons.
+
+Fixes
+    [!] Fixed unused variable warnings and linter errors across all utility modules.
+    [!] Removed obsolete orphaned hotfix scripts.
