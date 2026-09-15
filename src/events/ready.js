@@ -1,30 +1,9 @@
 const { Events } = require('discord.js');
 const { rotateStatus } = require('../utils/statusRotator');
-const { getChannels, removeChannel } = require('../utils/database');
+const { getChannels } = require('../utils/database');
 const { createPlayer } = require('../utils/player');
+const { startWatchdog } = require('../utils/watchdog');
 const logger = require('../utils/logger');
-
-async function autoRejoinWithRetry(guild, channelId, guildId, attempt = 0) {
-    const MAX_ATTEMPTS = 5;
-    const BASE_DELAY_MS = 5000;
-
-    try {
-        await createPlayer(guild, channelId);
-        logger.info(`Auto-rejoin successful for guild ${guildId}`);
-    } catch (error) {
-        logger.error(
-            `Failed to auto-rejoin channel for guild ${guildId} (attempt ${attempt + 1}):`,
-            error?.message ?? String(error),
-        );
-        if (attempt < MAX_ATTEMPTS - 1) {
-            const delay = BASE_DELAY_MS * Math.pow(2, attempt);
-            logger.info(`Retrying auto-rejoin for guild ${guildId} in ${delay / 1000}s...`);
-            setTimeout(() => autoRejoinWithRetry(guild, channelId, guildId, attempt + 1), delay);
-        } else {
-            logger.error(`Giving up auto-rejoin for guild ${guildId} after ${MAX_ATTEMPTS} attempts.`);
-        }
-    }
-}
 
 module.exports = {
     name: Events.ClientReady,
@@ -35,9 +14,11 @@ module.exports = {
         // Start rotating the status messages
         rotateStatus(client);
 
-        // Delay auto-rejoin to avoid Discord rate limiting on rapid restarts.
-        // Stagger each guild by 4s to avoid voice connection rate limits.
-        const STARTUP_DELAY_MS = 15000;
+        // Start continuous 24/7 watchdog supervisor
+        startWatchdog(client, 30000);
+
+        // Initial staggered auto-rejoin for saved guilds
+        const STARTUP_DELAY_MS = 10000;
         const STAGGER_MS = 4000;
 
         setTimeout(async () => {
@@ -47,31 +28,30 @@ module.exports = {
             for (const row of channels) {
                 setTimeout(async () => {
                     try {
-                        const guild = await client.guilds.fetch(row.guild_id);
+                        let guild = client.guilds.cache.get(row.guild_id);
                         if (!guild) {
-                            logger.info(`Removing stale guild ${row.guild_id} from DB (bot not in guild)`);
-                            removeChannel(row.guild_id);
-                            return;
+                            try {
+                                guild = await client.guilds.fetch(row.guild_id);
+                            } catch (fetchErr) {
+                                logger.warn(`Startup: Could not fetch guild ${row.guild_id}: ${fetchErr.message}`);
+                                return;
+                            }
                         }
 
-                        const channel = await guild.channels.fetch(row.channel_id);
+                        if (!guild) return;
+
+                        const channel = await guild.channels.fetch(row.channel_id).catch(() => null);
                         if (!channel || !channel.isVoiceBased()) {
-                            logger.info(
-                                `Removing stale channel for guild ${row.guild_id} (channel missing or not voice)`,
+                            logger.warn(
+                                `Startup: Channel ${row.channel_id} in guild ${row.guild_id} not available or not voice. Retaining in DB for watchdog.`,
                             );
-                            removeChannel(row.guild_id);
                             return;
                         }
 
-                        autoRejoinWithRetry(guild, channel.id, row.guild_id);
+                        logger.info(`Startup: Connecting to channel ${channel.name} in guild ${guild.name}`);
+                        await createPlayer(guild, channel.id);
                     } catch (error) {
-                        const isUnknownGuild = error.code === 10004 || (error.body && error.body.code === 10004);
-                        if (isUnknownGuild) {
-                            logger.info(`Removing stale guild ${row.guild_id} from DB (Unknown Guild)`);
-                            removeChannel(row.guild_id);
-                        } else {
-                            logger.error(`Failed to fetch guild or channel for ${row.guild_id}:`, error);
-                        }
+                        logger.error(`Startup: Failed to join channel for guild ${row.guild_id}:`, error);
                     }
                 }, delayMs);
                 delayMs += STAGGER_MS;

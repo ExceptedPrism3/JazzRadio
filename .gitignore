@@ -28,3 +28,6 @@ logs/
 
 # Database
 data/jazz.db
+
+# SSH command
+ssh.command

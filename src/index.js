@@ -8,6 +8,9 @@ const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
+// Avoid EventEmitter memory leak warnings when handling many voice connections
+client.setMaxListeners(100);
+
 // Load Commands
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -36,6 +39,15 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args));
     }
 }
+
+// Global process error handlers
+process.on('unhandledRejection', (reason, _promise) => {
+    logger.error('Unhandled Promise Rejection at:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+    logger.error('Uncaught Exception thrown:', error);
+});
 
 // Login
 client.login(process.env.TOKEN).catch((error) => {

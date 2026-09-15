@@ -1,6 +1,6 @@
 {
     "name": "jazzradio",
-    "version": "4.2",
+    "version": "4.2.1",
     "description": "Pure Jazz Music to your ears.",
     "main": "src/index.js",
     "scripts": {

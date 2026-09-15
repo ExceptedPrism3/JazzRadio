@@ -88,3 +88,19 @@ Changes
 Fixes
     [!] Fixed unused variable warnings and linter errors across all utility modules.
     [!] Removed obsolete orphaned hotfix scripts.
+
+<-!------------------------------ 4.2.1 ------------------------------!->
+
+Additions
+    [+] Autonomous 24/7 Voice Watchdog supervisor (`src/utils/watchdog.js`) to continuously monitor and self-heal voice connections.
+    [+] Exponential backoff reconnection queue for temporary Discord Voice outages (521/522 errors).
+    [+] Global unhandled rejection and uncaught exception safety handlers.
+
+Changes
+    [*] Increased Discord client max EventEmitter listeners to 100 to eliminate shard listener leak warnings.
+    [*] Improved voice disconnection lifecycle to cleanly reset state for watchdog recovery.
+
+Fixes
+    [!] Fixed permanent voice disconnection issue when Discord voice server outages exceed 30 seconds.
+    [!] Prevented accidental database channel pruning caused by transient Discord API errors.
+
